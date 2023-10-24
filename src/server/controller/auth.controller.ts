@@ -5,6 +5,8 @@ import { WrapAppHandler } from "../../handler/default.handler";
 import { validate } from "../validate";
 import { Register_Payload } from "../dto/auth.dto";
 import { AuthValidator } from "../validate/auth.validator";
+import { defaultMiddleware } from "../../utils/middleware-helper.utils";
+import { Privilege } from "../../constant/privilege.constant";
 
 export class AuthController extends BaseController {
     private service!: AuthService;
@@ -18,7 +20,7 @@ export class AuthController extends BaseController {
     }
 
     initRoute(): void {
-        this.router.post("/register", WrapAppHandler(this.postRegister));
+        this.router.post("/register", defaultMiddleware(Privilege.Admin), WrapAppHandler(this.postRegister));
     }
 
     postRegister = async (req: Request): Promise<unknown> => {
