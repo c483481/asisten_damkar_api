@@ -5,8 +5,9 @@ import { WrapAppHandler } from "../../handler/default.handler";
 import { validate } from "../validate";
 import { Login_Payload, Register_Payload } from "../dto/auth.dto";
 import { AuthValidator } from "../validate/auth.validator";
-import { defaultMiddleware } from "../../utils/middleware-helper.utils";
+import { defaultMiddleware, refreshToken } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
+import { getForceRefreshToken } from "../../utils/helper.utils";
 
 export class AuthController extends BaseController {
     private service!: AuthService;
@@ -23,6 +24,8 @@ export class AuthController extends BaseController {
         this.router.post("/register", defaultMiddleware(Privilege.Admin), WrapAppHandler(this.postRegister));
 
         this.router.post("/login", WrapAppHandler(this.postLogin));
+
+        this.router.get("/", refreshToken(), WrapAppHandler(this.getAccessToken));
     }
 
     postRegister = async (req: Request): Promise<unknown> => {
@@ -39,6 +42,14 @@ export class AuthController extends BaseController {
         const payload = req.body as Login_Payload;
 
         const result = await this.service.login(payload);
+
+        return result;
+    };
+
+    getAccessToken = async (req: Request): Promise<unknown> => {
+        const xid = getForceRefreshToken(req);
+
+        const result = await this.service.refreshToken(xid);
 
         return result;
     };

@@ -22,6 +22,20 @@ export function getUsersSession(req: Request): UserSession | undefined {
     return req.app.locals.users;
 }
 
+export function saveRefreshToken(req: Request, xid: string): void {
+    req.app.locals.xid = xid;
+}
+
+export function getForceRefreshToken(req: Request): string {
+    const xid: string | undefined = req.app.locals.xid;
+
+    if (!xid) {
+        throw ERROR_UNAUTHORIZE;
+    }
+
+    return xid;
+}
+
 export function getForceUsersSession(req: Request): UserSession {
     const userSession: UserSession | undefined = req.app.locals.users;
     if (!userSession) {
