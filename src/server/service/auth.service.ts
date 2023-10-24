@@ -56,7 +56,7 @@ export class Auth extends BaseService implements AuthService {
         const result = composeUsers(users) as LoginResult;
 
         result.key = {
-            accessToken: jwtModule.issueWithAudience(users, users.role),
+            accessToken: jwtModule.issueWithAudience(result, users.role),
             refreshToken: jwtModule.issueEdit({ xid: users.xid }, 3600 * 24),
         };
 
