@@ -3,7 +3,7 @@ import { AppServiceMap, AuthService } from "../../contract/service.contract";
 import { BaseController } from "./base.controller";
 import { WrapAppHandler } from "../../handler/default.handler";
 import { validate } from "../validate";
-import { Register_Payload } from "../dto/auth.dto";
+import { Login_Payload, Register_Payload } from "../dto/auth.dto";
 import { AuthValidator } from "../validate/auth.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
@@ -21,6 +21,8 @@ export class AuthController extends BaseController {
 
     initRoute(): void {
         this.router.post("/register", defaultMiddleware(Privilege.Admin), WrapAppHandler(this.postRegister));
+
+        this.router.post("/login", WrapAppHandler(this.postLogin));
     }
 
     postRegister = async (req: Request): Promise<unknown> => {
@@ -29,6 +31,14 @@ export class AuthController extends BaseController {
         validate(AuthValidator.Register_Payload, payload);
 
         const result = await this.service.register(payload);
+
+        return result;
+    };
+
+    postLogin = async (req: Request): Promise<unknown> => {
+        const payload = req.body as Login_Payload;
+
+        const result = await this.service.login(payload);
 
         return result;
     };
