@@ -13,4 +13,12 @@ export class SequelizeUsersRepository extends BaseRepository implements UsersRep
     insertUsers = async (payload: UsersCreationAttributes): Promise<UsersAttributes> => {
         return this.users.create(payload);
     };
+
+    findByUsername = async(username: string): Promise<UsersAttributes | null> => {
+        return this.users.findOne({
+            where: {
+                username,
+            },
+        });
+    };
 }
