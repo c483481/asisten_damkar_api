@@ -41,6 +41,8 @@ export class AuthController extends BaseController {
     postLogin = async (req: Request): Promise<unknown> => {
         const payload = req.body as Login_Payload;
 
+        validate(AuthValidator.Login_Payload, payload);
+
         const result = await this.service.login(payload);
 
         return result;
