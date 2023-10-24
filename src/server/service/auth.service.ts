@@ -1,3 +1,4 @@
+import { isValid } from "ulidx";
 import { getTagRole } from "../../constant/role.constant";
 import { AppRepositoryMap, UsersRepository } from "../../contract/repository.contract";
 import { AuthService } from "../../contract/service.contract";
@@ -5,7 +6,7 @@ import { bcryptModule } from "../../module/bcrypt.module";
 import { jwtModule } from "../../module/jwt.module";
 import { errorResponses } from "../../response";
 import { createData } from "../../utils/helper.utils";
-import { LoginResult, Login_Payload, Register_Payload } from "../dto/auth.dto";
+import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../dto/auth.dto";
 import { UsersResult } from "../dto/users.dto";
 import { UsersCreationAttributes } from "../model/users.model";
 import { BaseService } from "./base.service";
@@ -58,6 +59,26 @@ export class Auth extends BaseService implements AuthService {
         result.key = {
             accessToken: jwtModule.issueWithAudience(result, users.role),
             refreshToken: jwtModule.issueEdit({ xid: users.xid }, 3600 * 24),
+        };
+
+        return result;
+    };
+
+    refreshToken = async (xid: string): Promise<RefreshTokenResult> => {
+        if (!isValid(xid)) {
+            throw errorResponses.getError("E_AUTH_1");
+        }
+
+        const users = await this.usersRepo.findByXid(xid);
+
+        if (!users) {
+            throw errorResponses.getError("E_AUTH_1");
+        }
+
+        const result = composeUsers(users) as RefreshTokenResult;
+
+        result.key = {
+            accessToken: jwtModule.issueWithAudience(result, users.role),
         };
 
         return result;

@@ -18,3 +18,9 @@ export interface LoginResult extends UsersResult {
         refreshToken: Token;
     };
 }
+
+export interface RefreshTokenResult extends UsersResult {
+    key: {
+        accessToken: Token;
+    };
+}
