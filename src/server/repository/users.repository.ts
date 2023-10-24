@@ -21,4 +21,12 @@ export class SequelizeUsersRepository extends BaseRepository implements UsersRep
             },
         });
     };
+
+    findByXid = async (xid: string): Promise<UsersAttributes | null> => {
+        return this.users.findOne({
+            where: {
+                xid,
+            },
+        });
+    };
 }

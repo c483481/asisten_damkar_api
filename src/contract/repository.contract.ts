@@ -8,4 +8,6 @@ export interface UsersRepository {
     insertUsers(payload: UsersCreationAttributes): Promise<UsersAttributes>;
 
     findByUsername(username: string): Promise<UsersAttributes | null>;
+
+    findByXid(xid: string): Promise<UsersAttributes | null>;
 }
