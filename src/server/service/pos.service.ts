@@ -1,6 +1,7 @@
 import { AppRepositoryMap, PosRepository } from "../../contract/repository.contract";
 import { PosService } from "../../contract/service.contract";
-import { composeResult, createData } from "../../utils/helper.utils";
+import { ListResult, List_Payload } from "../../module/dto.module";
+import { compose, composeResult, createData } from "../../utils/helper.utils";
 import { PosCreation_Payload, PosResult } from "../dto/pos.dto";
 import { PosAttributes, PosCreationAttributes } from "../model/pos.model";
 import { BaseService } from "./base.service";
@@ -28,6 +29,17 @@ export class Pos extends BaseService implements PosService {
         const result = await this.posRepo.insertPos(createdValues);
 
         return composePos(result);
+    };
+
+    findPos = async (payload: List_Payload): Promise<ListResult<PosResult>> => {
+        const result = await this.posRepo.listPos(payload);
+
+        const items = compose(result.rows, composePos);
+
+        return {
+            items,
+            count: result.count,
+        };
     };
 }
 
