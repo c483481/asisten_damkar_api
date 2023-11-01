@@ -17,10 +17,8 @@ export class Pos extends BaseService implements PosService {
         const createdValues = createData<PosCreationAttributes>(
             {
                 name,
-                location: {
-                    type: "Point",
-                    coordinates: [lat, lng],
-                },
+                latitude: lat,
+                longitude: lng,
                 active: true,
             },
             userSession
@@ -47,8 +45,8 @@ export function composePos(row: PosAttributes): PosResult {
     return composeResult<PosAttributes, PosResult>(row, {
         name: row.name,
         location: {
-            lat: row.location.coordinates[0],
-            lng: row.location.coordinates[1],
+            lat: row.latitude,
+            lng: row.longitude,
         },
         active: row.active,
     });

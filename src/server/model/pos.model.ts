@@ -1,5 +1,5 @@
 import { CommonColumn } from "../../module/default.module";
-import { ModifiedBy, Point } from "../../module/dto.module";
+import { ModifiedBy } from "../../module/dto.module";
 import { BaseSequelizeAttribute, optionalSequelize } from "./common.model";
 import { Optional, DataTypes, Model, Sequelize } from "sequelize";
 
@@ -7,7 +7,8 @@ const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
 export interface PosAttributes extends BaseSequelizeAttribute {
     name: string;
-    location: Point;
+    latitude: number;
+    longitude: number;
     active: boolean;
 }
 
@@ -22,7 +23,8 @@ export class Pos extends Model<PosAttributes, PosCreationAttributes> implements 
     id!: number;
 
     name!: string;
-    location!: Point;
+    latitude!: number;
+    longitude!: number;
     active!: boolean;
 
     static initModels(sequelize: Sequelize): typeof Pos {
@@ -39,8 +41,12 @@ export class Pos extends Model<PosAttributes, PosCreationAttributes> implements 
                     allowNull: false,
                     unique: true,
                 },
-                location: {
-                    type: DataTypes.GEOMETRY("POINT"),
+                latitude: {
+                    type: DataTypes.DOUBLE,
+                    allowNull: false,
+                },
+                longitude: {
+                    type: DataTypes.DOUBLE,
                     allowNull: false,
                 },
                 active: {

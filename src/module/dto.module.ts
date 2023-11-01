@@ -71,8 +71,3 @@ export type Token = {
     token: string;
     lifeTime: number;
 };
-
-export interface Point {
-    type: "Point";
-    coordinates: [number, number];
-}

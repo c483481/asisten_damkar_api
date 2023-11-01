@@ -19,8 +19,12 @@ module.exports = {
                 allowNull: false,
                 unique: true,
             },
-            location: {
-                type: Sequelize.GEOMETRY('POINT'),
+            latitude: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
+            longitude: {
+                type: Sequelize.DOUBLE,
                 allowNull: false,
             },
             active: {
