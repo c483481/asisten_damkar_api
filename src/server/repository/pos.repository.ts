@@ -1,9 +1,10 @@
-import { Order } from "sequelize";
+import { Order, literal, WhereOptions } from "sequelize";
 import { PosRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { FindResult, List_Payload } from "../../module/dto.module";
 import { Pos, PosAttributes, PosCreationAttributes } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
+import { parseToNumber } from "../../utils/parse.uttils";
 
 export class SequelizePosRepository extends BaseRepository implements PosRepository {
     private pos!: typeof Pos;
@@ -18,7 +19,7 @@ export class SequelizePosRepository extends BaseRepository implements PosReposit
 
     listPos = async (payload: List_Payload): Promise<FindResult<PosAttributes>> => {
         // retrieve options filters
-        const { showAll } = payload;
+        const { filters, showAll } = payload;
 
         // prepare find options
         let limit: number | undefined = undefined;
@@ -32,7 +33,16 @@ export class SequelizePosRepository extends BaseRepository implements PosReposit
         // parsing sort option
         const { order } = this.parseSortBy(payload.sortBy);
 
+        const where: WhereOptions<PosAttributes> = {};
+
+        if (parseToNumber(filters.km) && parseToNumber(filters.lat) && parseToNumber(filters.lng)) {
+            where.longitude = literal(
+                `ST_DISTANCE_SPHERE(point(${filters.lng}, ${filters.lat}), point(longitude, latitude)) / 1000 < ${filters.km}`
+            );
+        }
+
         return await this.pos.findAndCountAll({
+            where,
             offset,
             limit,
             order,
