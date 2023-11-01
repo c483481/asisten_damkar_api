@@ -41,7 +41,10 @@ export function getForceUsersSession(req: Request): UserSession {
     if (!userSession) {
         throw ERROR_UNAUTHORIZE;
     }
-    return userSession;
+    return {
+        xid: userSession.xid,
+        username: userSession.username,
+    };
 }
 
 export function getListOption(req: Request): List_Payload {

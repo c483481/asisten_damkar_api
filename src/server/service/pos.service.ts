@@ -12,13 +12,16 @@ export class Pos extends BaseService implements PosService {
     }
 
     createPos = async (payload: PosCreation_Payload): Promise<PosResult> => {
-        const { lat, lng } = payload;
-        const createdValues = createData<PosCreationAttributes>({
-            location: {
-                type: "Point",
-                coordinates: [lat, lng],
+        const { lat, lng, userSession } = payload;
+        const createdValues = createData<PosCreationAttributes>(
+            {
+                location: {
+                    type: "Point",
+                    coordinates: [lat, lng],
+                },
             },
-        });
+            userSession
+        );
 
         const result = await this.posRepo.insertPos(createdValues);
 

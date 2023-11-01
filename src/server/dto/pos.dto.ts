@@ -1,8 +1,9 @@
-import { BaseResult } from "../../module/dto.module";
+import { BaseResult, UserSession } from "../../module/dto.module";
 
 export interface PosCreation_Payload {
     lat: number;
     lng: number;
+    userSession: UserSession;
 }
 
 export interface PosResult extends BaseResult {

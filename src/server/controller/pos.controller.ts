@@ -7,6 +7,7 @@ import { PosValidator } from "../validate/pos.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
+import { getForceUsersSession } from "../../utils/helper.utils";
 
 export class PosController extends BaseController {
     private service!: PosService;
@@ -25,6 +26,10 @@ export class PosController extends BaseController {
 
     postCreatePos = async (req: Request): Promise<PosResult> => {
         const payload = req.body as PosCreation_Payload;
+
+        const userSession = getForceUsersSession(req);
+
+        payload.userSession = userSession;
 
         validate(PosValidator.PosCreation_Payload, payload);
 
