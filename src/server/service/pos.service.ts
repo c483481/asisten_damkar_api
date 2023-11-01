@@ -12,13 +12,15 @@ export class Pos extends BaseService implements PosService {
     }
 
     createPos = async (payload: PosCreation_Payload): Promise<PosResult> => {
-        const { lat, lng, userSession } = payload;
+        const { lat, lng, userSession, name } = payload;
         const createdValues = createData<PosCreationAttributes>(
             {
+                name,
                 location: {
                     type: "Point",
                     coordinates: [lat, lng],
                 },
+                active: true,
             },
             userSession
         );
@@ -31,9 +33,11 @@ export class Pos extends BaseService implements PosService {
 
 export function composePos(row: PosAttributes): PosResult {
     return composeResult<PosAttributes, PosResult>(row, {
+        name: row.name,
         location: {
             lat: row.location.coordinates[0],
             lng: row.location.coordinates[1],
         },
+        active: row.active,
     });
 }

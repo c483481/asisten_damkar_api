@@ -14,10 +14,19 @@ module.exports = {
             updatedAt,
             xid,
             modifiedBy,
+            name: {
+                type: Sequelize.STRING,
+                allowNull: false,
+                unique: true,
+            },
             location: {
                 type: Sequelize.GEOMETRY('POINT'),
                 allowNull: false,
             },
+            active: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+            }
         });
     },
 
