@@ -3,9 +3,11 @@ import { AppServiceMap } from "../../contract/service.contract";
 import { BaseController } from "./base.controller";
 import { limiter } from "../../handler/limitter.handler";
 import { AuthController } from "./auth.controller";
+import { PosController } from "./pos.controller";
 
 export class Controller {
     private readonly auth = new AuthController();
+    private readonly pos = new PosController();
 
     init(service: AppServiceMap): Router {
         const router = Router();
