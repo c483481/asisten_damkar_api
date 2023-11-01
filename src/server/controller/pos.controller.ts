@@ -7,7 +7,8 @@ import { PosValidator } from "../validate/pos.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
-import { getForceUsersSession } from "../../utils/helper.utils";
+import { getForceUsersSession, getListOption } from "../../utils/helper.utils";
+import { ListResult } from "../../module/dto.module";
 
 export class PosController extends BaseController {
     private service!: PosService;
@@ -22,6 +23,7 @@ export class PosController extends BaseController {
 
     initRoute(): void {
         this.router.post("/", defaultMiddleware(Privilege.Central), WrapAppHandler(this.postCreatePos));
+        this.router.get("/", defaultMiddleware(), WrapAppHandler(this.getListPost));
     }
 
     postCreatePos = async (req: Request): Promise<PosResult> => {
@@ -34,6 +36,14 @@ export class PosController extends BaseController {
         validate(PosValidator.PosCreation_Payload, payload);
 
         const result = await this.service.createPos(payload);
+
+        return result;
+    };
+
+    getListPost = async (req: Request): Promise<ListResult<PosResult>> => {
+        const payload = getListOption(req);
+
+        const result = await this.service.findPos(payload);
 
         return result;
     };
