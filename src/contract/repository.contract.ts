@@ -1,3 +1,4 @@
+import { FindResult, List_Payload } from "../module/dto.module";
 import { PosAttributes, PosCreationAttributes } from "../server/model/pos.model";
 import { UsersAttributes, UsersCreationAttributes } from "../server/model/users.model";
 
@@ -16,4 +17,6 @@ export interface UsersRepository {
 
 export interface PosRepository {
     insertPos(payload: PosCreationAttributes): Promise<PosAttributes>;
+
+    listPos(payload: List_Payload): Promise<FindResult<PosAttributes>>;
 }
