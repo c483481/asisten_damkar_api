@@ -1,7 +1,7 @@
 import { GetDetail_Payload, ListResult, List_Payload } from "../module/dto.module";
 import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../server/dto/auth.dto";
 import { ItemsCreation_Attribute, ItemsResult } from "../server/dto/items.dto";
-import { PosCreation_Payload, PosResult } from "../server/dto/pos.dto";
+import { PosCreation_Payload, PosJoinResult, PosResult } from "../server/dto/pos.dto";
 import { TruckCreation_Payload, TruckJoinResult, TruckResult } from "../server/dto/truck.dto";
 import { UsersResult } from "../server/dto/users.dto";
 
@@ -23,6 +23,8 @@ export interface PosService {
     createPos(payload: PosCreation_Payload): Promise<PosResult>;
 
     findPos(payload: List_Payload): Promise<ListResult<PosResult>>;
+
+    getDetailPos(payload: GetDetail_Payload): Promise<PosJoinResult>;
 }
 
 export interface TruckService {

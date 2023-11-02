@@ -1,4 +1,5 @@
 import { BaseResult, UserSession } from "../../module/dto.module";
+import { TruckResult } from "./truck.dto";
 
 export interface PosCreation_Payload {
     name: string;
@@ -14,4 +15,8 @@ export interface PosResult extends BaseResult {
         lng: number;
     };
     active: boolean;
+}
+
+export interface PosJoinResult extends PosResult {
+    truck: TruckResult[];
 }

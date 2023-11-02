@@ -1,10 +1,13 @@
+import { isValid } from "ulidx";
 import { AppRepositoryMap, PosRepository } from "../../contract/repository.contract";
 import { PosService } from "../../contract/service.contract";
-import { ListResult, List_Payload } from "../../module/dto.module";
+import { GetDetail_Payload, ListResult, List_Payload } from "../../module/dto.module";
 import { compose, composeResult, createData } from "../../utils/helper.utils";
-import { PosCreation_Payload, PosResult } from "../dto/pos.dto";
-import { PosAttributes, PosCreationAttributes } from "../model/pos.model";
+import { PosCreation_Payload, PosJoinResult, PosResult } from "../dto/pos.dto";
+import { PosAttributes, PosCreationAttributes, PosJoinAttributes } from "../model/pos.model";
 import { BaseService } from "./base.service";
+import { errorResponses } from "../../response";
+import { composeTruck } from "./truck.service";
 
 export class Pos extends BaseService implements PosService {
     private posRepo!: PosRepository;
@@ -39,6 +42,22 @@ export class Pos extends BaseService implements PosService {
             count: result.count,
         };
     };
+
+    getDetailPos = async (payload: GetDetail_Payload): Promise<PosJoinResult> => {
+        const { xid } = payload;
+
+        if (!isValid(xid)) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        const result = await this.posRepo.findByXidJoin(xid);
+
+        if (!result) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        return composeJoinPos(result);
+    };
 }
 
 export function composePos(row: PosAttributes): PosResult {
@@ -49,5 +68,17 @@ export function composePos(row: PosAttributes): PosResult {
             lng: row.longitude,
         },
         active: row.active,
+    });
+}
+
+function composeJoinPos(row: PosJoinAttributes): PosJoinResult {
+    return composeResult<PosAttributes, PosJoinResult>(row, {
+        name: row.name,
+        location: {
+            lat: row.latitude,
+            lng: row.longitude,
+        },
+        active: row.active,
+        truck: row.Truck ? compose(row.Truck, composeTruck) : [],
     });
 }
