@@ -41,6 +41,7 @@ export class Truck extends Model<TruckAttribute, TruckCreationsAttributes> imple
                 plat: {
                     type: DataTypes.STRING,
                     allowNull: false,
+                    unique: true,
                 },
                 active: {
                     type: DataTypes.BOOLEAN,
