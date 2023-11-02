@@ -46,6 +46,14 @@ export class SequelizeTruckRepository extends BaseRepository implements TruckRep
         });
     };
 
+    findByXid = async (xid: string): Promise<TruckAttribute | null> => {
+        return this.truck.findOne({
+            where: {
+                xid,
+            },
+        });
+    };
+
     parseSortBy = (sortBy: string): { order: Order } => {
         // determine sorting option
         let order: Order;

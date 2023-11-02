@@ -31,6 +31,8 @@ export interface TruckRepository {
     insertTruck(payload: TruckCreationsAttributes): Promise<TruckAttribute>;
 
     listTruck(payload: List_Payload): Promise<FindResult<TruckAttribute>>;
+
+    findByXid(xid: string): Promise<TruckAttribute | null>;
 }
 
 export interface ItemsRepository {
