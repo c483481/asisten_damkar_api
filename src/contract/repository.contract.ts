@@ -1,10 +1,12 @@
 import { FindResult, List_Payload } from "../module/dto.module";
 import { PosAttributes, PosCreationAttributes } from "../server/model/pos.model";
+import { TruckAttribute, TruckCreationsAttributes } from "../server/model/truck.model";
 import { UsersAttributes, UsersCreationAttributes } from "../server/model/users.model";
 
 export interface AppRepositoryMap {
     users: UsersRepository;
     pos: PosRepository;
+    truck: TruckRepository;
 }
 
 export interface UsersRepository {
@@ -19,4 +21,8 @@ export interface PosRepository {
     insertPos(payload: PosCreationAttributes): Promise<PosAttributes>;
 
     listPos(payload: List_Payload): Promise<FindResult<PosAttributes>>;
+}
+
+export interface TruckRepository {
+    insertTruck(payload: TruckCreationsAttributes): Promise<TruckAttribute>;
 }
