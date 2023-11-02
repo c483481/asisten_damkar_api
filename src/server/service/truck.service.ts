@@ -14,7 +14,7 @@ export class Truck extends BaseService implements TruckService {
     private truckRepo!: TruckRepository;
     private posRepo!: PosRepository;
     private itemsRepo!: ItemsRepository;
-    
+
     init(repository: AppRepositoryMap): void {
         this.truckRepo = repository.truck;
         this.posRepo = repository.pos;

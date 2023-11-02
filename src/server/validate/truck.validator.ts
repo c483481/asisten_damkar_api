@@ -7,4 +7,11 @@ export class TruckValidator {
         userSession: userSessionScema,
         $$strict: true,
     });
+
+    static ItemsCreation_Payload = baseValidator.compile({
+        truckXid: { type: "string", length: 26, require: true, empty: false },
+        name: { type: "string", min: 3, max: 255, require: true, empty: false },
+        userSession: userSessionScema,
+        $$strict: true,
+    });
 }
