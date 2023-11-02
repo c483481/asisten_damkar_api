@@ -2,9 +2,10 @@ import { Order, literal, WhereOptions } from "sequelize";
 import { PosRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { FindResult, List_Payload } from "../../module/dto.module";
-import { Pos, PosAttributes, PosCreationAttributes } from "../model/pos.model";
+import { Pos, PosAttributes, PosCreationAttributes, PosJoinAttributes } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
 import { parseToNumber } from "../../utils/parse.uttils";
+import { Truck } from "../model/truck.model";
 
 export class SequelizePosRepository extends BaseRepository implements PosRepository {
     private pos!: typeof Pos;
@@ -54,6 +55,15 @@ export class SequelizePosRepository extends BaseRepository implements PosReposit
             where: {
                 xid,
             },
+        });
+    };
+
+    findByXidJoin = async (xid: string): Promise<PosJoinAttributes | null> => {
+        return this.pos.findOne({
+            where: {
+                xid,
+            },
+            include: [{ model: Truck }],
         });
     };
 

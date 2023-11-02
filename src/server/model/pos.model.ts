@@ -2,6 +2,7 @@ import { CommonColumn } from "../../module/default.module";
 import { ModifiedBy } from "../../module/dto.module";
 import { BaseSequelizeAttribute, optionalSequelize } from "./common.model";
 import { Optional, DataTypes, Model, Sequelize } from "sequelize";
+import { TruckAttribute } from "./truck.model";
 
 const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
@@ -10,6 +11,10 @@ export interface PosAttributes extends BaseSequelizeAttribute {
     latitude: number;
     longitude: number;
     active: boolean;
+}
+
+export interface PosJoinAttributes extends PosAttributes {
+    Truck?: TruckAttribute[];
 }
 
 export type PosCreationAttributes = Optional<PosAttributes, optionalSequelize>;
