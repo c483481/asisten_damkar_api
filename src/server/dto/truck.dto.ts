@@ -8,7 +8,6 @@ export interface TruckCreation_Payload {
 }
 
 export interface TruckResult extends BaseResult {
-    posXid: string;
     plat: string;
     active: boolean;
 }

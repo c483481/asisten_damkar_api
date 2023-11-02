@@ -80,7 +80,7 @@ export class Truck extends BaseService implements TruckService {
         const createdValues = createData<TruckCreationsAttributes>(
             {
                 plat,
-                posXid,
+                posId: pos.id,
                 active: true,
             },
             userSession
@@ -105,7 +105,6 @@ export class Truck extends BaseService implements TruckService {
 
 export function composeTruck(row: TruckAttribute): TruckResult {
     return composeResult<TruckAttribute, TruckResult>(row, {
-        posXid: row.posXid,
         plat: row.plat,
         active: row.active,
     });
@@ -120,7 +119,6 @@ export function composeItems(row: ItemsAttributes): ItemsResult {
 
 function composeJoinTruck(row: TruckJoinAttributes): TruckJoinResult {
     return composeResult<TruckAttribute, TruckJoinResult>(row, {
-        posXid: row.posXid,
         plat: row.plat,
         active: row.active,
         items: row.Items ? compose(row.Items, composeItems) : [],
