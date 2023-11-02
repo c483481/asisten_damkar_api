@@ -49,6 +49,14 @@ export class SequelizePosRepository extends BaseRepository implements PosReposit
         });
     };
 
+    findByXid = async (xid: string): Promise<PosAttributes | null> => {
+        return this.pos.findOne({
+            where: {
+                xid,
+            },
+        });
+    };
+
     parseSortBy = (sortBy: string): { order: Order } => {
         // determine sorting option
         let order: Order;

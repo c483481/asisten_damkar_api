@@ -21,6 +21,8 @@ export interface PosRepository {
     insertPos(payload: PosCreationAttributes): Promise<PosAttributes>;
 
     listPos(payload: List_Payload): Promise<FindResult<PosAttributes>>;
+
+    findByXid(xid: string): Promise<PosAttributes | null>;
 }
 
 export interface TruckRepository {
