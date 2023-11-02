@@ -15,29 +15,32 @@ export class Truck extends BaseService implements TruckService {
         this.posRepo = repository.pos;
     }
 
-    createTruck = async(payload: TruckCreation_Payload) => {
+    createTruck = async (payload: TruckCreation_Payload) => {
         const { plat, posXid, userSession } = payload;
 
-        if(!isValid(posXid)) {
+        if (!isValid(posXid)) {
             throw errorResponses.getError("E_FOUND_1");
         }
 
         const pos = await this.posRepo.findByXid(posXid);
 
-        if(!pos) {
+        if (!pos) {
             throw errorResponses.getError("E_FOUND_1");
         }
 
-        const createdValues = createData<TruckCreationsAttributes>({
-            plat,
-            posXid,
-            active: true,
-        }, userSession);
+        const createdValues = createData<TruckCreationsAttributes>(
+            {
+                plat,
+                posXid,
+                active: true,
+            },
+            userSession
+        );
 
         const result = await this.truckRepo.insertTruck(createdValues);
 
         return composeTruck(result);
-    }
+    };
 }
 
 export function composeTruck(row: TruckAttribute): TruckResult {
@@ -45,5 +48,5 @@ export function composeTruck(row: TruckAttribute): TruckResult {
         posXid: row.posXid,
         plat: row.plat,
         active: row.active,
-    })
+    });
 }
