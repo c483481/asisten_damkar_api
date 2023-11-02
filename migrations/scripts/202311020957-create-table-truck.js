@@ -14,9 +14,13 @@ module.exports = {
             updatedAt,
             xid,
             modifiedBy,
-            posXid: {
-                type: Sequelize.STRING,
+            posId: {
+                type: Sequelize.BIGINT,
                 allowNull: false,
+                references: {
+                    model: "pos",
+                    key: "id",
+                },
             },
             plat: {
                 type: Sequelize.STRING,

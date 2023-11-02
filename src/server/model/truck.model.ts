@@ -7,7 +7,7 @@ import { Items } from "./items.model";
 const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
 export interface TruckAttribute extends BaseSequelizeAttribute {
-    posXid: string;
+    posId: number;
     plat: string;
     active: boolean;
 }
@@ -26,7 +26,7 @@ export class Truck extends Model<TruckAttribute, TruckCreationsAttributes> imple
     version!: number;
     id!: number;
 
-    posXid!: string;
+    posId!: number;
     plat!: string;
     active!: boolean;
 
@@ -39,8 +39,8 @@ export class Truck extends Model<TruckAttribute, TruckCreationsAttributes> imple
                 modifiedBy,
                 updatedAt,
                 createdAt,
-                posXid: {
-                    type: DataTypes.STRING,
+                posId: {
+                    type: DataTypes.BIGINT,
                     allowNull: false,
                 },
                 plat: {
