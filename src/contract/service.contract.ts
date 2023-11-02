@@ -1,11 +1,13 @@
 import { ListResult, List_Payload } from "../module/dto.module";
 import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../server/dto/auth.dto";
 import { PosCreation_Payload, PosResult } from "../server/dto/pos.dto";
+import { TruckCreation_Payload, TruckResult } from "../server/dto/truck.dto";
 import { UsersResult } from "../server/dto/users.dto";
 
 export interface AppServiceMap {
     auth: AuthService;
     pos: PosService;
+    truck: TruckService;
 }
 
 export interface AuthService {
@@ -20,4 +22,8 @@ export interface PosService {
     createPos(payload: PosCreation_Payload): Promise<PosResult>;
 
     findPos(payload: List_Payload): Promise<ListResult<PosResult>>;
+}
+
+export interface TruckService {
+    createTruck(payload: TruckCreation_Payload): Promise<TruckResult>;
 }
