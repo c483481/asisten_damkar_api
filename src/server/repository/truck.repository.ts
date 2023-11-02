@@ -1,10 +1,11 @@
-import { Order, WhereOptions } from "sequelize";
+import { Order, Includeable } from "sequelize";
 import { TruckRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { Truck, TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../model/truck.model";
 import { BaseRepository } from "./base.repository";
 import { FindResult, List_Payload } from "../../module/dto.module";
 import { Items } from "../model/items.model";
+import { Pos } from "../model/pos.model";
 
 export class SequelizeTruckRepository extends BaseRepository implements TruckRepository {
     private truck!: typeof Truck;
@@ -18,8 +19,8 @@ export class SequelizeTruckRepository extends BaseRepository implements TruckRep
     };
 
     listTruck = async (payload: List_Payload): Promise<FindResult<TruckAttribute>> => {
-        // retrieve options filters
-        const { filters, showAll } = payload;
+        // retrieve options
+        const { showAll } = payload;
 
         // prepare find options
         let limit: number | undefined = undefined;
@@ -33,14 +34,7 @@ export class SequelizeTruckRepository extends BaseRepository implements TruckRep
         // parsing sort option
         const { order } = this.parseSortBy(payload.sortBy);
 
-        const where: WhereOptions<TruckAttribute> = {};
-
-        if (filters.posXid) {
-            where.posXid = filters.posXid;
-        }
-
         return await this.truck.findAndCountAll({
-            where,
             offset,
             limit,
             order,
