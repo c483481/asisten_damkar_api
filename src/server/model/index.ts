@@ -27,6 +27,16 @@ export function initSqlModels(sequelize: Sequelize): AppSqlModel {
         foreignKey: "truckId",
     });
 
+    Pos.hasMany(Truck, {
+        sourceKey: "id",
+        foreignKey: "posId",
+    });
+
+    Truck.belongsTo(Pos, {
+        targetKey: "id",
+        foreignKey: "posId",
+    });
+
     return {
         Users,
         Pos,
