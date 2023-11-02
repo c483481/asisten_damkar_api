@@ -1,13 +1,13 @@
 import { Request } from "express";
 import { AppServiceMap, PosService } from "../../contract/service.contract";
 import { BaseController } from "./base.controller";
-import { PosCreation_Payload, PosResult } from "../dto/pos.dto";
+import { PosCreation_Payload, PosJoinResult, PosResult } from "../dto/pos.dto";
 import { validate } from "../validate";
 import { PosValidator } from "../validate/pos.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
-import { getForceUsersSession, getListOption } from "../../utils/helper.utils";
+import { getDetailOption, getForceUsersSession, getListOption } from "../../utils/helper.utils";
 import { ListResult } from "../../module/dto.module";
 
 export class PosController extends BaseController {
@@ -24,6 +24,7 @@ export class PosController extends BaseController {
     initRoute(): void {
         this.router.post("/", defaultMiddleware(Privilege.Central), WrapAppHandler(this.postCreatePos));
         this.router.get("/", defaultMiddleware(), WrapAppHandler(this.getListPost));
+        this.router.get("/:xid", defaultMiddleware(), WrapAppHandler(this.getDetailPos));
     }
 
     postCreatePos = async (req: Request): Promise<PosResult> => {
@@ -44,6 +45,14 @@ export class PosController extends BaseController {
         const payload = getListOption(req);
 
         const result = await this.service.findPos(payload);
+
+        return result;
+    };
+
+    getDetailPos = async (req: Request): Promise<PosJoinResult> => {
+        const payload = getDetailOption(req);
+
+        const result = await this.service.getDetailPos(payload);
 
         return result;
     };
