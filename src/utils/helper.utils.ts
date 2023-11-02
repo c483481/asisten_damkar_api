@@ -116,7 +116,7 @@ export function composeResult<K extends BaseAttribute, T extends BaseResult>(k: 
     return Object.assign(t, {
         xid: k.xid,
         version: k.version,
-        modifiedBy: k.modifiedBy,
+        modifiedBy: typeof k.modifiedBy === "object" ? k.modifiedBy : JSON.parse(k.modifiedBy),
         updatedAt: toUnixEpoch(k.updatedAt),
         createdAt: toUnixEpoch(k.createdAt),
     } as BaseResult) as T;
