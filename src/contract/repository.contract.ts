@@ -27,4 +27,6 @@ export interface PosRepository {
 
 export interface TruckRepository {
     insertTruck(payload: TruckCreationsAttributes): Promise<TruckAttribute>;
+
+    listTruck(payload: List_Payload): Promise<FindResult<TruckAttribute>>;
 }
