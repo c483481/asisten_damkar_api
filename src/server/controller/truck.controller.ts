@@ -2,12 +2,13 @@ import { Request } from "express";
 import { AppServiceMap, TruckService } from "../../contract/service.contract";
 import { BaseController } from "./base.controller";
 import { TruckCreation_Payload, TruckResult } from "../dto/truck.dto";
-import { getForceUsersSession } from "../../utils/helper.utils";
+import { getForceUsersSession, getListOption } from "../../utils/helper.utils";
 import { validate } from "../validate";
 import { TruckValidator } from "../validate/truck.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
+import { ListResult } from "../../module/dto.module";
 
 export class TruckController extends BaseController {
     private service!: TruckService;
@@ -22,6 +23,7 @@ export class TruckController extends BaseController {
 
     initRoute(): void {
         this.router.post("/", defaultMiddleware(Privilege.Central), WrapAppHandler(this.postCreateTruck));
+        this.router.get("/", defaultMiddleware(Privilege.Central), WrapAppHandler(this.getListTruck));
     }
 
     postCreateTruck = async (req: Request): Promise<TruckResult> => {
@@ -34,6 +36,14 @@ export class TruckController extends BaseController {
         validate(TruckValidator.TruckCreation_Payload, payload);
 
         const result = await this.service.createTruck(payload);
+
+        return result;
+    };
+
+    getListTruck = async (req: Request): Promise<ListResult<TruckResult>> => {
+        const payload = getListOption(req);
+
+        const result = await this.service.findTruck(payload);
 
         return result;
     };
