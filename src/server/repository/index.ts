@@ -1,6 +1,13 @@
-import { AppRepositoryMap, PosRepository, TruckRepository, UsersRepository } from "../../contract/repository.contract";
+import {
+    AppRepositoryMap,
+    ItemsRepository,
+    PosRepository,
+    TruckRepository,
+    UsersRepository,
+} from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { BaseRepository } from "./base.repository";
+import { SequelizeItemsRepository } from "./items.repository";
 import { SequelizePosRepository } from "./pos.repository";
 import { SequelizeTruckRepository } from "./truck.repository";
 import { SequelizeUsersRepository } from "./users.repository";
@@ -9,6 +16,7 @@ export class Repository implements AppRepositoryMap {
     readonly users: UsersRepository = new SequelizeUsersRepository();
     readonly pos: PosRepository = new SequelizePosRepository();
     readonly truck: TruckRepository = new SequelizeTruckRepository();
+    readonly items: ItemsRepository = new SequelizeItemsRepository();
 
     init(datasource: AppDataSource) {
         Object.entries(this).forEach(([k, r]) => {
