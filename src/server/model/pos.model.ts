@@ -14,7 +14,7 @@ export interface PosAttributes extends BaseSequelizeAttribute {
 }
 
 export interface PosJoinAttributes extends PosAttributes {
-    Truck?: TruckAttribute[];
+    Trucks?: TruckAttribute[];
 }
 
 export type PosCreationAttributes = Optional<PosAttributes, optionalSequelize>;

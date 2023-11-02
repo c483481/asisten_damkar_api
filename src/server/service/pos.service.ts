@@ -79,6 +79,6 @@ function composeJoinPos(row: PosJoinAttributes): PosJoinResult {
             lng: row.longitude,
         },
         active: row.active,
-        truck: row.Truck ? compose(row.Truck, composeTruck) : [],
+        truck: row.Trucks ? compose(row.Trucks, composeTruck) : [],
     });
 }
