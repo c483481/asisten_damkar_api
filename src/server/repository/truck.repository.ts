@@ -1,9 +1,10 @@
 import { Order, WhereOptions } from "sequelize";
 import { TruckRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
-import { Truck, TruckAttribute, TruckCreationsAttributes } from "../model/truck.model";
+import { Truck, TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../model/truck.model";
 import { BaseRepository } from "./base.repository";
 import { FindResult, List_Payload } from "../../module/dto.module";
+import { Items } from "../model/items.model";
 
 export class SequelizeTruckRepository extends BaseRepository implements TruckRepository {
     private truck!: typeof Truck;
@@ -51,6 +52,15 @@ export class SequelizeTruckRepository extends BaseRepository implements TruckRep
             where: {
                 xid,
             },
+        });
+    };
+
+    findByXidJoin = async (xid: string): Promise<TruckJoinAttributes | null> => {
+        return this.truck.findOne({
+            where: {
+                xid,
+            },
+            include: [{ model: Items }],
         });
     };
 

@@ -1,7 +1,7 @@
 import { FindResult, List_Payload } from "../module/dto.module";
 import { ItemsAttributes, ItemsCreationAttributes } from "../server/model/items.model";
 import { PosAttributes, PosCreationAttributes } from "../server/model/pos.model";
-import { TruckAttribute, TruckCreationsAttributes } from "../server/model/truck.model";
+import { TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../server/model/truck.model";
 import { UsersAttributes, UsersCreationAttributes } from "../server/model/users.model";
 
 export interface AppRepositoryMap {
@@ -33,6 +33,8 @@ export interface TruckRepository {
     listTruck(payload: List_Payload): Promise<FindResult<TruckAttribute>>;
 
     findByXid(xid: string): Promise<TruckAttribute | null>;
+
+    findByXidJoin(xid: string): Promise<TruckJoinAttributes | null>;
 }
 
 export interface ItemsRepository {
