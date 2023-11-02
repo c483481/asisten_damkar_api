@@ -1,12 +1,12 @@
 import { isValid } from "ulidx";
 import { AppRepositoryMap, ItemsRepository, PosRepository, TruckRepository } from "../../contract/repository.contract";
 import { compose, composeResult, createData } from "../../utils/helper.utils";
-import { TruckCreation_Payload, TruckResult } from "../dto/truck.dto";
-import { TruckAttribute, TruckCreationsAttributes } from "../model/truck.model";
+import { TruckCreation_Payload, TruckJoinResult, TruckResult } from "../dto/truck.dto";
+import { TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../model/truck.model";
 import { BaseService } from "./base.service";
 import { errorResponses } from "../../response";
 import { TruckService } from "../../contract/service.contract";
-import { ListResult, List_Payload } from "../../module/dto.module";
+import { GetDetail_Payload, ListResult, List_Payload } from "../../module/dto.module";
 import { ItemsCreation_Attribute, ItemsResult } from "../dto/items.dto";
 import { ItemsAttributes, ItemsCreationAttributes } from "../model/items.model";
 
@@ -20,6 +20,22 @@ export class Truck extends BaseService implements TruckService {
         this.posRepo = repository.pos;
         this.itemsRepo = repository.items;
     }
+
+    getDetailTruck = async (payload: GetDetail_Payload): Promise<TruckJoinResult> => {
+        const { xid } = payload;
+
+        if (!isValid(xid)) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        const result = await this.truckRepo.findByXidJoin(xid);
+
+        if (!result) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        return composeJoinTruck(result);
+    };
 
     createItemsTruck = async (payload: ItemsCreation_Attribute): Promise<ItemsResult> => {
         const { name, userSession, truckXid } = payload;
@@ -99,5 +115,14 @@ export function composeItems(row: ItemsAttributes): ItemsResult {
     return composeResult<ItemsAttributes, ItemsResult>(row, {
         name: row.name,
         active: row.active,
+    });
+}
+
+function composeJoinTruck(row: TruckJoinAttributes): TruckJoinResult {
+    return composeResult<TruckAttribute, TruckJoinResult>(row, {
+        posXid: row.posXid,
+        plat: row.plat,
+        active: row.active,
+        items: row.Items ? compose(row.Items, composeItems) : [],
     });
 }

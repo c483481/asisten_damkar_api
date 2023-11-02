@@ -1,8 +1,8 @@
-import { ListResult, List_Payload } from "../module/dto.module";
+import { GetDetail_Payload, ListResult, List_Payload } from "../module/dto.module";
 import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../server/dto/auth.dto";
 import { ItemsCreation_Attribute, ItemsResult } from "../server/dto/items.dto";
 import { PosCreation_Payload, PosResult } from "../server/dto/pos.dto";
-import { TruckCreation_Payload, TruckResult } from "../server/dto/truck.dto";
+import { TruckCreation_Payload, TruckJoinResult, TruckResult } from "../server/dto/truck.dto";
 import { UsersResult } from "../server/dto/users.dto";
 
 export interface AppServiceMap {
@@ -31,4 +31,6 @@ export interface TruckService {
     findTruck(payload: List_Payload): Promise<ListResult<TruckResult>>;
 
     createItemsTruck(payload: ItemsCreation_Attribute): Promise<ItemsResult>;
+
+    getDetailTruck(payload: GetDetail_Payload): Promise<TruckJoinResult>;
 }
