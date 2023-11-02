@@ -1,11 +1,12 @@
 import { isValid } from "ulidx";
 import { AppRepositoryMap, PosRepository, TruckRepository } from "../../contract/repository.contract";
-import { composeResult, createData } from "../../utils/helper.utils";
+import { compose, composeResult, createData } from "../../utils/helper.utils";
 import { TruckCreation_Payload, TruckResult } from "../dto/truck.dto";
 import { TruckAttribute, TruckCreationsAttributes } from "../model/truck.model";
 import { BaseService } from "./base.service";
 import { errorResponses } from "../../response";
 import { TruckService } from "../../contract/service.contract";
+import { ListResult, List_Payload } from "../../module/dto.module";
 
 export class Truck extends BaseService implements TruckService {
     private truckRepo!: TruckRepository;
@@ -40,6 +41,17 @@ export class Truck extends BaseService implements TruckService {
         const result = await this.truckRepo.insertTruck(createdValues);
 
         return composeTruck(result);
+    };
+
+    findTruck = async (payload: List_Payload): Promise<ListResult<TruckResult>> => {
+        const result = await this.truckRepo.listTruck(payload);
+
+        const items = compose(result.rows, composeTruck);
+
+        return {
+            items,
+            count: result.count,
+        };
     };
 }
 

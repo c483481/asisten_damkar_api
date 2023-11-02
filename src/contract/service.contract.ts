@@ -26,4 +26,6 @@ export interface PosService {
 
 export interface TruckService {
     createTruck(payload: TruckCreation_Payload): Promise<TruckResult>;
+
+    findTruck(payload: List_Payload): Promise<ListResult<TruckResult>>;
 }
