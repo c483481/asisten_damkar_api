@@ -4,7 +4,7 @@ import { BaseService } from "./base.service";
 import { errorResponses } from "../../response";
 import { composeResult, createData } from "../../utils/helper.utils";
 import { FireLocationCreationAttributes, FireLocationJoinAttributes } from "../model/fire-location.model";
-import { FireLocationResult } from "../dto/fire-location.dto";
+import { FireLocationCreation_Payload, FireLocationResult } from "../dto/fire-location.dto";
 import { composePos } from "./pos.service";
 
 export class FireLocation extends BaseService {
@@ -15,7 +15,8 @@ export class FireLocation extends BaseService {
         this.posRepo = repository.pos;
     }
 
-    createFireLocation = async (posXid: string): Promise<FireLocationResult> => {
+    createFireLocation = async (payload: FireLocationCreation_Payload): Promise<FireLocationResult> => {
+        const { posXid, lat, lng, userSession } = payload;
         if (!isValid(posXid)) {
             throw errorResponses.getError("E_FOUND_1");
         }
@@ -26,9 +27,14 @@ export class FireLocation extends BaseService {
             throw errorResponses.getError("E_FOUND_1");
         }
 
-        const createdValues = createData<FireLocationCreationAttributes>({
-            posId: pos.id,
-        });
+        const createdValues = createData<FireLocationCreationAttributes>(
+            {
+                latitude: lat,
+                longitude: lng,
+                posId: pos.id,
+            },
+            userSession
+        );
 
         const result = (await this.fireLocationRepo.insertFireLocation(createdValues)) as FireLocationJoinAttributes;
 
@@ -41,5 +47,7 @@ export class FireLocation extends BaseService {
 export function composeFireLocation(row: FireLocationJoinAttributes): FireLocationResult {
     return composeResult<FireLocationJoinAttributes, FireLocationResult>(row, {
         pos: row.Pos ? composePos(row.Pos) : null,
+        lat: row.latitude,
+        lng: row.longitude,
     });
 }
