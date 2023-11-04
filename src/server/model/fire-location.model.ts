@@ -10,6 +10,7 @@ export interface FireLocationAttributes extends BaseSequelizeAttribute {
     posId: number;
     latitude: number;
     longitude: number;
+    active: boolean;
 }
 
 export interface FireLocationJoinAttributes extends FireLocationAttributes {
@@ -32,6 +33,7 @@ export class FireLocation
     posId!: number;
     latitude!: number;
     longitude!: number;
+    active!: boolean;
 
     static initModels(sequelize: Sequelize): typeof FireLocation {
         return FireLocation.init(
@@ -57,6 +59,11 @@ export class FireLocation
                 longitude: {
                     type: DataTypes.DOUBLE,
                     allowNull: false,
+                },
+                active: {
+                    type: DataTypes.BOOLEAN,
+                    allowNull: false,
+                    defaultValue: true,
                 },
             },
             {
