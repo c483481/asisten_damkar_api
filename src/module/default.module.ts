@@ -34,7 +34,7 @@ const modifiedBy = {
 };
 
 const xid = {
-    type: DataTypes.STRING(60),
+    type: DataTypes.STRING(26),
     allowNull: false,
     unique: true,
 };
