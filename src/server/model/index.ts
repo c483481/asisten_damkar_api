@@ -3,12 +3,14 @@ import { Users } from "./users.model";
 import { Pos } from "./pos.model";
 import { Truck } from "./truck.model";
 import { Items } from "./items.model";
+import { FireLocation } from "./fire-location.model";
 
 export interface AppSqlModel {
     Users: typeof Users;
     Pos: typeof Pos;
     Truck: typeof Truck;
     Items: typeof Items;
+    FireLocation: typeof FireLocation;
 }
 
 export function initSqlModels(sequelize: Sequelize): AppSqlModel {
@@ -16,6 +18,7 @@ export function initSqlModels(sequelize: Sequelize): AppSqlModel {
     Pos.initModels(sequelize);
     Truck.initModels(sequelize);
     Items.initModels(sequelize);
+    FireLocation.initModels(sequelize);
 
     Truck.hasMany(Items, {
         sourceKey: "id",
@@ -37,10 +40,21 @@ export function initSqlModels(sequelize: Sequelize): AppSqlModel {
         foreignKey: "posId",
     });
 
+    FireLocation.hasOne(Pos, {
+        sourceKey: "id",
+        foreignKey: "posId",
+    });
+
+    Pos.belongsTo(FireLocation, {
+        targetKey: "id",
+        foreignKey: "posId",
+    });
+
     return {
         Users,
         Pos,
         Truck,
         Items,
+        FireLocation,
     };
 }
