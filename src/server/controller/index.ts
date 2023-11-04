@@ -5,11 +5,13 @@ import { limiter } from "../../handler/limitter.handler";
 import { AuthController } from "./auth.controller";
 import { PosController } from "./pos.controller";
 import { TruckController } from "./truck.controller";
+import { FireLocationController } from "./fire-location.controller";
 
 export class Controller {
     private readonly auth = new AuthController();
     private readonly pos = new PosController();
     private readonly truck = new TruckController();
+    private readonly fireLocation = new FireLocationController();
 
     init(service: AppServiceMap): Router {
         const router = Router();
