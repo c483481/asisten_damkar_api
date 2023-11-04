@@ -42,12 +42,12 @@ export function initSqlModels(sequelize: Sequelize): AppSqlModel {
 
     FireLocation.hasOne(Pos, {
         sourceKey: "id",
-        foreignKey: "posId",
+        foreignKey: "posFireId",
     });
 
     Pos.belongsTo(FireLocation, {
         targetKey: "id",
-        foreignKey: "posId",
+        foreignKey: "posFireId",
     });
 
     return {

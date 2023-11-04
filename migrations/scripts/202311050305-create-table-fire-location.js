@@ -22,6 +22,14 @@ module.exports = {
                     key: "id",
                 },
             },
+            latitude: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
+            longitude: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
         });
     },
 

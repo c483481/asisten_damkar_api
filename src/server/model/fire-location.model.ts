@@ -8,6 +8,8 @@ const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
 export interface FireLocationAttributes extends BaseSequelizeAttribute {
     posId: number;
+    latitude: number;
+    longitude: number;
 }
 
 export interface FireLocationJoinAttributes extends FireLocationAttributes {
@@ -28,6 +30,8 @@ export class FireLocation
     id!: number;
 
     posId!: number;
+    latitude!: number;
+    longitude!: number;
 
     static initModels(sequelize: Sequelize): typeof FireLocation {
         return FireLocation.init(
@@ -45,6 +49,14 @@ export class FireLocation
                         model: Pos,
                         key: "id",
                     },
+                },
+                latitude: {
+                    type: DataTypes.DOUBLE,
+                    allowNull: false,
+                },
+                longitude: {
+                    type: DataTypes.DOUBLE,
+                    allowNull: false,
                 },
             },
             {
