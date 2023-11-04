@@ -32,6 +32,7 @@ export class FireLocation extends BaseService {
                 latitude: lat,
                 longitude: lng,
                 posId: pos.id,
+                active: true,
             },
             userSession
         );
@@ -49,5 +50,6 @@ export function composeFireLocation(row: FireLocationJoinAttributes): FireLocati
         pos: row.Pos ? composePos(row.Pos) : null,
         lat: row.latitude,
         lng: row.longitude,
+        active: row.active,
     });
 }
