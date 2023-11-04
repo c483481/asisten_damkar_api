@@ -1,4 +1,5 @@
 import { FindResult, List_Payload } from "../module/dto.module";
+import { FireLocationAttributes, FireLocationCreationAttributes } from "../server/model/fire-location.model";
 import { ItemsAttributes, ItemsCreationAttributes } from "../server/model/items.model";
 import { PosAttributes, PosCreationAttributes, PosJoinAttributes } from "../server/model/pos.model";
 import { TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../server/model/truck.model";
@@ -9,6 +10,7 @@ export interface AppRepositoryMap {
     pos: PosRepository;
     truck: TruckRepository;
     items: ItemsRepository;
+    fireLocation: FireLocationRepository;
 }
 
 export interface UsersRepository {
@@ -41,4 +43,8 @@ export interface TruckRepository {
 
 export interface ItemsRepository {
     insertItems(payload: ItemsCreationAttributes): Promise<ItemsAttributes>;
+}
+
+export interface FireLocationRepository {
+    insertFireLocation(payload: FireLocationCreationAttributes): Promise<FireLocationAttributes>;
 }
