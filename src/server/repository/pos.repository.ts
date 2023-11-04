@@ -1,4 +1,4 @@
-import { Order, literal, WhereOptions } from "sequelize";
+import { Order, literal, WhereOptions, FindAttributeOptions, fn, Includeable } from "sequelize";
 import { PosRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { FindResult, List_Payload } from "../../module/dto.module";
@@ -32,18 +32,49 @@ export class SequelizePosRepository extends BaseRepository implements PosReposit
         }
 
         // parsing sort option
-        const { order } = this.parseSortBy(payload.sortBy);
+        let { order } = this.parseSortBy(payload.sortBy);
+
+        const include: Includeable[] = [];
 
         const where: WhereOptions<PosAttributes> = {};
+
+        const attributeOptions: FindAttributeOptions = [
+            "id",
+            "xid",
+            "version",
+            "modifiedBy",
+            "updatedAt",
+            "createdAt",
+            "name",
+            "latitude",
+            "longitude",
+            "active",
+        ];
 
         if (parseToNumber(filters.km) && parseToNumber(filters.lat) && parseToNumber(filters.lng)) {
             where.longitude = literal(
                 `ST_DISTANCE_SPHERE(point(${filters.lng}, ${filters.lat}), point(longitude, latitude)) / 1000 < ${filters.km}`
             );
+            attributeOptions.push([
+                fn("ST_DISTANCE_SPHERE", literal(`point(${filters.lng}, ${filters.lat}), point(longitude, latitude)`)),
+                "distance",
+            ]);
+            order = [["distance", "ASC"]];
+        }
+
+        if (filters.includeActive && filters.includeActive === "true") {
+            include.push({
+                model: Truck,
+                where: {
+                    active: true,
+                },
+            });
         }
 
         return await this.pos.findAndCountAll({
+            attributes: attributeOptions,
             where,
+            include,
             offset,
             limit,
             order,
