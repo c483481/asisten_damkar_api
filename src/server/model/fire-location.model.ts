@@ -2,7 +2,7 @@ import { CommonColumn } from "../../module/default.module";
 import { ModifiedBy } from "../../module/dto.module";
 import { BaseSequelizeAttribute, optionalSequelize } from "./common.model";
 import { Optional, Sequelize, Model, DataTypes } from "sequelize";
-import { Pos } from "./pos.model";
+import { Pos, PosAttributes } from "./pos.model";
 
 const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
@@ -11,7 +11,7 @@ export interface FireLocationAttributes extends BaseSequelizeAttribute {
 }
 
 export interface FireLocationJoinAttributes extends FireLocationAttributes {
-    Pos?: Pos;
+    Pos?: PosAttributes;
 }
 
 export type FireLocationCreationAttributes = Optional<FireLocationAttributes, optionalSequelize>;

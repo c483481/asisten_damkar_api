@@ -30,7 +30,9 @@ export class FireLocation extends BaseService {
             posId: pos.id,
         });
 
-        const result = await this.fireLocationRepo.insertFireLocation(createdValues);
+        const result = (await this.fireLocationRepo.insertFireLocation(createdValues)) as FireLocationJoinAttributes;
+
+        result.Pos = pos;
 
         return composeFireLocation(result);
     };
