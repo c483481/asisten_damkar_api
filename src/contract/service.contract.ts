@@ -1,5 +1,6 @@
 import { GetDetail_Payload, ListResult, List_Payload } from "../module/dto.module";
 import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../server/dto/auth.dto";
+import { FireLocationResult } from "../server/dto/fire-location.dto";
 import { ItemsCreation_Attribute, ItemsResult } from "../server/dto/items.dto";
 import { PosCreation_Payload, PosJoinResult, PosResult } from "../server/dto/pos.dto";
 import { TruckCreation_Payload, TruckJoinResult, TruckResult } from "../server/dto/truck.dto";
@@ -9,6 +10,7 @@ export interface AppServiceMap {
     auth: AuthService;
     pos: PosService;
     truck: TruckService;
+    fireLocation: FireLocationService;
 }
 
 export interface AuthService {
@@ -35,4 +37,8 @@ export interface TruckService {
     createItemsTruck(payload: ItemsCreation_Attribute): Promise<ItemsResult>;
 
     getDetailTruck(payload: GetDetail_Payload): Promise<TruckJoinResult>;
+}
+
+export interface FireLocationService {
+    createFireLocation(posXid: string): Promise<FireLocationResult>;
 }

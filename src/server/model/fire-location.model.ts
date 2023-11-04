@@ -10,6 +10,10 @@ export interface FireLocationAttributes extends BaseSequelizeAttribute {
     posId: number;
 }
 
+export interface FireLocationJoinAttributes extends FireLocationAttributes {
+    Pos?: Pos;
+}
+
 export type FireLocationCreationAttributes = Optional<FireLocationAttributes, optionalSequelize>;
 
 export class FireLocation
