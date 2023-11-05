@@ -7,14 +7,14 @@ const name = "fire_location"
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.addColumn(name, "active", {
-            type: Sequelize.BOOLEAN,
+        await queryInterface.addColumn(name, "status", {
+            type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: true,
+            defaultValue: 1,
         })
     },
 
     async down(queryInterface, _Sequelize) {
-        await queryInterface.removeColumn(name, "active")
+        await queryInterface.removeColumn(name, "status")
     },
 };
