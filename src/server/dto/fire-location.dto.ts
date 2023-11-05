@@ -5,7 +5,7 @@ export interface FireLocationResult extends BaseResult {
     pos: PosResult | null;
     lat: number;
     lng: number;
-    active: boolean;
+    status: string;
 }
 
 export interface FireLocationCreation_Payload {

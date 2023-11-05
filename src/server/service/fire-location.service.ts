@@ -6,6 +6,7 @@ import { composeResult, createData } from "../../utils/helper.utils";
 import { FireLocationCreationAttributes, FireLocationJoinAttributes } from "../model/fire-location.model";
 import { FireLocationCreation_Payload, FireLocationResult } from "../dto/fire-location.dto";
 import { composePos } from "./pos.service";
+import { getStatus, statusConstant } from "../../constant/status.constant";
 
 export class FireLocation extends BaseService {
     private fireLocationRepo!: FireLocationRepository;
@@ -32,7 +33,7 @@ export class FireLocation extends BaseService {
                 latitude: lat,
                 longitude: lng,
                 posId: pos.id,
-                active: true,
+                status: statusConstant.onGoing,
             },
             userSession
         );
@@ -50,6 +51,6 @@ export function composeFireLocation(row: FireLocationJoinAttributes): FireLocati
         pos: row.Pos ? composePos(row.Pos) : null,
         lat: row.latitude,
         lng: row.longitude,
-        active: row.active,
+        status: getStatus(row.status),
     });
 }
