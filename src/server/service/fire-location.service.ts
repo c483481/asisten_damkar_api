@@ -2,13 +2,15 @@ import { isValid } from "ulidx";
 import { AppRepositoryMap, FireLocationRepository, PosRepository } from "../../contract/repository.contract";
 import { BaseService } from "./base.service";
 import { errorResponses } from "../../response";
-import { composeResult, createData } from "../../utils/helper.utils";
+import { compose, composeResult, createData } from "../../utils/helper.utils";
 import { FireLocationCreationAttributes, FireLocationJoinAttributes } from "../model/fire-location.model";
 import { FireLocationCreation_Payload, FireLocationResult } from "../dto/fire-location.dto";
 import { composePos } from "./pos.service";
 import { getStatus, statusConstant } from "../../constant/status.constant";
+import { ListResult, List_Payload } from "../../module/dto.module";
+import { FireLocationService } from "../../contract/service.contract";
 
-export class FireLocation extends BaseService {
+export class FireLocation extends BaseService implements FireLocationService {
     private fireLocationRepo!: FireLocationRepository;
     private posRepo!: PosRepository;
     init(repository: AppRepositoryMap): void {
@@ -43,6 +45,17 @@ export class FireLocation extends BaseService {
         result.Pos = pos;
 
         return composeFireLocation(result);
+    };
+
+    getListFireLocation = async (payload: List_Payload): Promise<ListResult<FireLocationResult>> => {
+        const result = await this.fireLocationRepo.listFireLocation(payload);
+
+        const items = compose(result.rows, composeFireLocation);
+
+        return {
+            items,
+            count: result.count,
+        };
     };
 }
 

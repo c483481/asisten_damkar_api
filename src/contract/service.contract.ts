@@ -41,4 +41,6 @@ export interface TruckService {
 
 export interface FireLocationService {
     createFireLocation(posXid: FireLocationCreation_Payload): Promise<FireLocationResult>;
+
+    getListFireLocation(payload: List_Payload): Promise<ListResult<FireLocationResult>>;
 }
