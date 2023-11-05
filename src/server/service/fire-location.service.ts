@@ -42,7 +42,7 @@ export class FireLocation extends BaseService implements FireLocationService {
 
         const result = (await this.fireLocationRepo.insertFireLocation(createdValues)) as FireLocationJoinAttributes;
 
-        result.Pos = pos;
+        result.Po = pos;
 
         return composeFireLocation(result);
     };
@@ -61,7 +61,7 @@ export class FireLocation extends BaseService implements FireLocationService {
 
 export function composeFireLocation(row: FireLocationJoinAttributes): FireLocationResult {
     return composeResult<FireLocationJoinAttributes, FireLocationResult>(row, {
-        pos: row.Pos ? composePos(row.Pos) : null,
+        pos: row.Po ? composePos(row.Po) : null,
         lat: row.latitude,
         lng: row.longitude,
         status: getStatus(row.status),
