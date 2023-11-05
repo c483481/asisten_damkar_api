@@ -47,4 +47,6 @@ export interface ItemsRepository {
 
 export interface FireLocationRepository {
     insertFireLocation(payload: FireLocationCreationAttributes): Promise<FireLocationAttributes>;
+
+    listFireLocation(payload: List_Payload): Promise<FindResult<FireLocationAttributes>>;
 }

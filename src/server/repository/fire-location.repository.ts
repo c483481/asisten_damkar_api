@@ -1,7 +1,10 @@
 import { FireLocationRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
+import { FindResult, List_Payload } from "../../module/dto.module";
 import { FireLocation, FireLocationAttributes, FireLocationCreationAttributes } from "../model/fire-location.model";
+import { Pos } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
+import { Order, WhereOptions } from "sequelize";
 
 export class SequelizeFireLocationRepository extends BaseRepository implements FireLocationRepository {
     private fireLocation!: typeof FireLocation;
@@ -11,5 +14,65 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
 
     insertFireLocation = async (payload: FireLocationCreationAttributes): Promise<FireLocationAttributes> => {
         return this.fireLocation.create(payload);
+    };
+
+    listFireLocation = async (payload: List_Payload): Promise<FindResult<FireLocationAttributes>> => {
+        // retrieve options
+        const { showAll, filters } = payload;
+
+        // prepare find options
+        let limit: number | undefined = undefined;
+        let offset: number | undefined = undefined;
+
+        if (!showAll) {
+            limit = payload.limit;
+            offset = payload.skip;
+        }
+
+        const where: WhereOptions<FireLocationAttributes> = {};
+
+        if (filters.status) {
+            where.status = filters.status;
+        }
+
+        // parsing sort option
+        const { order } = this.parseSortBy(payload.sortBy);
+
+        return await this.fireLocation.findAndCountAll({
+            where,
+            offset,
+            include: { model: Pos },
+            limit,
+            order,
+        });
+    };
+
+    parseSortBy = (sortBy: string): { order: Order } => {
+        // determine sorting option
+        let order: Order;
+        switch (sortBy) {
+            case "createdAt-asc": {
+                order = [["createdAt", "ASC"]];
+                break;
+            }
+            case "createdAt-desc": {
+                order = [["createdAt", "DESC"]];
+                break;
+            }
+            case "updatedAt-asc": {
+                order = [["updatedAt", "ASC"]];
+                break;
+            }
+            case "updatedAt-desc": {
+                order = [["updatedAt", "DESC"]];
+                break;
+            }
+            default: {
+                order = [["createdAt", "DESC"]];
+                sortBy = "createdAt-desc";
+            }
+        }
+
+        return { order };
     };
 }
