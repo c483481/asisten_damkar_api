@@ -9,6 +9,7 @@ import { composePos } from "./pos.service";
 import { getStatus, statusConstant } from "../../constant/status.constant";
 import { ListResult, List_Payload } from "../../module/dto.module";
 import { FireLocationService } from "../../contract/service.contract";
+import { toUnixEpoch } from "../../utils/date.utils";
 
 export class FireLocation extends BaseService implements FireLocationService {
     private fireLocationRepo!: FireLocationRepository;
@@ -36,6 +37,7 @@ export class FireLocation extends BaseService implements FireLocationService {
                 longitude: lng,
                 posId: pos.id,
                 status: statusConstant.onGoing,
+                arriveAt: null,
             },
             userSession
         );
@@ -65,5 +67,6 @@ export function composeFireLocation(row: FireLocationJoinAttributes): FireLocati
         lat: row.latitude,
         lng: row.longitude,
         status: getStatus(row.status),
+        arriveAt: row.arriveAt ? toUnixEpoch(row.arriveAt) : null,
     });
 }

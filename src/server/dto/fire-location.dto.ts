@@ -6,6 +6,7 @@ export interface FireLocationResult extends BaseResult {
     lat: number;
     lng: number;
     status: string;
+    arriveAt: number | null;
 }
 
 export interface FireLocationCreation_Payload {
