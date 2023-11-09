@@ -35,6 +35,10 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
             where.status = filters.status;
         }
 
+        if (filters.nullArriveAt) {
+            where.arriveAt = null;
+        }
+
         // parsing sort option
         const { order } = this.parseSortBy(payload.sortBy);
 
