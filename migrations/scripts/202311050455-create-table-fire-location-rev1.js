@@ -18,7 +18,6 @@ module.exports = {
         await queryInterface.addColumn(name, "arriveAt", {
             type: Sequelize.DATE,
             allowNull: true,
-            defaultValue: Constants.DEFAULT_TIMESTAMP,
         });
     },
 
