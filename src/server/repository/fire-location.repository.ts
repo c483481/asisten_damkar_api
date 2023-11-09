@@ -4,7 +4,7 @@ import { FindResult, List_Payload } from "../../module/dto.module";
 import { FireLocation, FireLocationAttributes, FireLocationCreationAttributes } from "../model/fire-location.model";
 import { Pos } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
-import { Order, WhereOptions } from "sequelize";
+import { Op, Order, WhereOptions } from "sequelize";
 
 export class SequelizeFireLocationRepository extends BaseRepository implements FireLocationRepository {
     private fireLocation!: typeof FireLocation;
@@ -36,7 +36,9 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
         }
 
         if (filters.nullArriveAt) {
-            where.arriveAt = null;
+            where.arriveAt = {
+                [Op.ne]: null,
+            };
         }
 
         // parsing sort option
