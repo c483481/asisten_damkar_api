@@ -1,6 +1,8 @@
 import { PemadamRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
-import { Pemadam, PemadamAttributes, PemadamCreationAttributes } from "../model/pemadam.model";
+import { Pemadam, PemadamAttributes, PemadamCreationAttributes, PemadamJoinAttributes } from "../model/pemadam.model";
+import { Pos } from "../model/pos.model";
+import { Truck } from "../model/truck.model";
 import { BaseRepository } from "./base.repository";
 
 export class SequelizePemadamRepository extends BaseRepository implements PemadamRepository {
@@ -11,5 +13,16 @@ export class SequelizePemadamRepository extends BaseRepository implements Pemada
 
     insertPemadam = async (payload: PemadamCreationAttributes): Promise<PemadamAttributes> => {
         return this.pemadam.create(payload);
+    };
+
+    findPemadamByUserXid = async (xid: string): Promise<PemadamJoinAttributes | null> => {
+        return this.pemadam.findOne({
+            where: {
+                userXid: {
+                    xid,
+                },
+            },
+            include: [{ model: Truck }, { model: Pos }],
+        });
     };
 }
