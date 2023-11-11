@@ -2,6 +2,7 @@ import { GetDetail_Payload, ListResult, List_Payload } from "../module/dto.modul
 import { LoginResult, Login_Payload, RefreshTokenResult, Register_Payload } from "../server/dto/auth.dto";
 import { FireLocationCreation_Payload, FireLocationResult } from "../server/dto/fire-location.dto";
 import { ItemsCreation_Attribute, ItemsResult } from "../server/dto/items.dto";
+import { PemadamCreation_Payload, PemadamResult } from "../server/dto/pemadam.dto";
 import { PosCreation_Payload, PosJoinResult, PosResult } from "../server/dto/pos.dto";
 import { TruckCreation_Payload, TruckJoinResult, TruckResult } from "../server/dto/truck.dto";
 import { UsersResult } from "../server/dto/users.dto";
@@ -11,6 +12,7 @@ export interface AppServiceMap {
     pos: PosService;
     truck: TruckService;
     fireLocation: FireLocationService;
+    pemadam: PemadamService;
 }
 
 export interface AuthService {
@@ -43,4 +45,8 @@ export interface FireLocationService {
     createFireLocation(posXid: FireLocationCreation_Payload): Promise<FireLocationResult>;
 
     getListFireLocation(payload: List_Payload): Promise<ListResult<FireLocationResult>>;
+}
+
+export interface PemadamService {
+    createPemadam(payload: PemadamCreation_Payload): Promise<PemadamResult>;
 }
