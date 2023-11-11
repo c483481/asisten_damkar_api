@@ -1,6 +1,7 @@
 import { FindResult, List_Payload } from "../module/dto.module";
 import { FireLocationAttributes, FireLocationCreationAttributes } from "../server/model/fire-location.model";
 import { ItemsAttributes, ItemsCreationAttributes } from "../server/model/items.model";
+import { PemadamAttributes, PemadamCreationAttributes } from "../server/model/pemadam.model";
 import { PosAttributes, PosCreationAttributes, PosJoinAttributes } from "../server/model/pos.model";
 import { TruckAttribute, TruckCreationsAttributes, TruckJoinAttributes } from "../server/model/truck.model";
 import { UsersAttributes, UsersCreationAttributes } from "../server/model/users.model";
@@ -11,6 +12,7 @@ export interface AppRepositoryMap {
     truck: TruckRepository;
     items: ItemsRepository;
     fireLocation: FireLocationRepository;
+    pemadam: PemadamRepository;
 }
 
 export interface UsersRepository {
@@ -49,4 +51,8 @@ export interface FireLocationRepository {
     insertFireLocation(payload: FireLocationCreationAttributes): Promise<FireLocationAttributes>;
 
     listFireLocation(payload: List_Payload): Promise<FindResult<FireLocationAttributes>>;
+}
+
+export interface PemadamRepository {
+    insertPemadam(payload: PemadamCreationAttributes): Promise<PemadamAttributes>;
 }

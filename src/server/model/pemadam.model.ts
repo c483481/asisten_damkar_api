@@ -3,7 +3,7 @@ import { ModifiedBy } from "../../module/dto.module";
 import { BaseSequelizeAttribute, optionalSequelize } from "./common.model";
 import { Optional, Sequelize, Model, DataTypes } from "sequelize";
 import { Pos, PosAttributes } from "./pos.model";
-import { Truck } from "./truck.model";
+import { Truck, TruckAttribute } from "./truck.model";
 
 const { id, xid, version, modifiedBy, updatedAt, createdAt } = CommonColumn;
 
@@ -15,6 +15,7 @@ export interface PemadamAttributes extends BaseSequelizeAttribute {
 
 export interface PemadamJoinAttributes extends PemadamAttributes {
     Po?: PosAttributes;
+    Truck?: TruckAttribute;
 }
 
 export type PemadamCreationAttributes = Optional<PemadamAttributes, optionalSequelize>;
