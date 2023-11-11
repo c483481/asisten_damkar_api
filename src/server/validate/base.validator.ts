@@ -17,3 +17,5 @@ export const userSessionScema = {
     },
     strict: true,
 };
+
+export const xidScema = { type: "string", length: 26, require: true, empty: false };
