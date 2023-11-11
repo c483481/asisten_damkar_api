@@ -49,4 +49,6 @@ export interface FireLocationService {
 
 export interface PemadamService {
     createPemadam(payload: PemadamCreation_Payload): Promise<PemadamResult>;
+
+    getPemadamInfo(userXid: string): Promise<PemadamResult>;
 }

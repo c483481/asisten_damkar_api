@@ -13,8 +13,9 @@ import { PemadamCreationAttributes, PemadamJoinAttributes } from "../model/pemad
 import { BaseService } from "./base.service";
 import { composePos } from "./pos.service";
 import { composeTruck } from "./truck.service";
+import { PemadamService } from "../../contract/service.contract";
 
-export class Pemadam extends BaseService implements Pemadam {
+export class Pemadam extends BaseService implements PemadamService {
     private pemadamRepo!: PemadamRepository;
     private usersRepo!: UsersRepository;
     private truckRepo!: TruckRepository;
@@ -53,6 +54,20 @@ export class Pemadam extends BaseService implements Pemadam {
 
         result.Po = pos;
         result.Truck = truck;
+
+        return composePemadam(result);
+    };
+
+    getPemadamInfo = async (userXid: string): Promise<PemadamResult> => {
+        if (!isValid(userXid)) {
+            throw errorResponses.getError("E_REQ_1");
+        }
+
+        const result = await this.pemadamRepo.findPemadamByUserXid(userXid);
+
+        if (!result) {
+            throw errorResponses.getError("E_REQ_1");
+        }
 
         return composePemadam(result);
     };
