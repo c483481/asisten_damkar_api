@@ -65,7 +65,7 @@ export function initSqlModels(sequelize: Sequelize): AppSqlModel {
 
     Pos.hasMany(Pemadam, {
         sourceKey: "id",
-        foreignKey: "oisId",
+        foreignKey: "posId",
     });
 
     Pemadam.belongsTo(Pos, {

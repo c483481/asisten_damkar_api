@@ -18,9 +18,7 @@ export class SequelizePemadamRepository extends BaseRepository implements Pemada
     findPemadamByUserXid = async (xid: string): Promise<PemadamJoinAttributes | null> => {
         return this.pemadam.findOne({
             where: {
-                userXid: {
-                    xid,
-                },
+                userXid: xid,
             },
             include: [{ model: Truck }, { model: Pos }],
         });
