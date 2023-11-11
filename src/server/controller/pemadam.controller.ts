@@ -7,6 +7,7 @@ import { PemadamValidator } from "../validate/pemadam.validator";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
+import { getDetailOption } from "../../utils/helper.utils";
 
 export class PemadamController extends BaseController {
     private service!: PemadamService;
@@ -21,6 +22,8 @@ export class PemadamController extends BaseController {
 
     initRoute(): void {
         this.router.post("/", defaultMiddleware(Privilege.Admin), WrapAppHandler(this.postCreatePemadam));
+
+        this.router.get("/:xid", defaultMiddleware(), WrapAppHandler(this.getInfoPemadam));
     }
 
     postCreatePemadam = async (req: Request): Promise<unknown> => {
@@ -29,6 +32,14 @@ export class PemadamController extends BaseController {
         validate(PemadamValidator.PemadamCreation_Payload, payload);
 
         const result = await this.service.createPemadam(payload);
+
+        return result;
+    };
+
+    getInfoPemadam = async (req: Request): Promise<unknown> => {
+        const payload = getDetailOption(req);
+
+        const result = await this.service.getPemadamInfo(payload.xid);
 
         return result;
     };
