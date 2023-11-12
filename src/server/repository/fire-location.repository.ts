@@ -4,7 +4,7 @@ import { FindResult, List_Payload } from "../../module/dto.module";
 import { FireLocation, FireLocationAttributes, FireLocationCreationAttributes } from "../model/fire-location.model";
 import { Pos } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
-import { Op, Order, WhereOptions } from "sequelize";
+import { Includeable, Op, Order, WhereOptions } from "sequelize";
 
 export class SequelizeFireLocationRepository extends BaseRepository implements FireLocationRepository {
     private fireLocation!: typeof FireLocation;
@@ -41,13 +41,24 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
             };
         }
 
+        let includeAble: Includeable = { model: Pos };
+
+        if (filters.posXid) {
+            includeAble = {
+                model: Pos,
+                where: {
+                    xid: filters.posXid,
+                },
+            };
+        }
+
         // parsing sort option
         const { order } = this.parseSortBy(payload.sortBy);
 
         return await this.fireLocation.findAndCountAll({
             where,
             offset,
-            include: { model: Pos },
+            include: includeAble,
             limit,
             order,
         });
