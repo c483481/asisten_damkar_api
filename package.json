@@ -46,6 +46,7 @@
     "mysql2": "^3.6.2",
     "sequelize": "^6.28.2",
     "sequelize-cli": "^6.6.0",
+    "socket.io": "^4.7.2",
     "ulidx": "^2.2.1"
   }
 }

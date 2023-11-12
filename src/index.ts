@@ -12,6 +12,8 @@ import { initErrorResponse } from "./response";
 import compression from "compression";
 import { AppRepositoryMap } from "./contract/repository.contract";
 import { AppServiceMap } from "./contract/service.contract";
+import { createServer, Server } from "http";
+import { SocketServer } from "./server/socket";
 
 start();
 
@@ -40,8 +42,9 @@ async function start(): Promise<void> {
     });
 }
 
-function init(service: AppServiceMap): express.Application {
+function init(service: AppServiceMap): Server {
     const app = express();
+    const server = createServer(app);
 
     app.use(
         helmet({
@@ -69,6 +72,10 @@ function init(service: AppServiceMap): express.Application {
     app.use(express.urlencoded({ extended: false, limit: "50kb" }));
     app.use(express.json({ limit: "50kb" }));
 
+    const socket = new SocketServer();
+
+    socket.init({ server, service });
+
     const controller = new Controller();
 
     if (!config.isProduction) {
@@ -83,5 +90,5 @@ function init(service: AppServiceMap): express.Application {
 
     app.use(handleError);
 
-    return app;
+    return server;
 }
