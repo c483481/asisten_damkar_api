@@ -57,7 +57,11 @@ export class Pemadam extends Model<PemadamAttributes, PemadamCreationAttributes>
                         key: "id",
                     },
                 },
-                userXid: xid,
+                userXid: {
+                    type: DataTypes.STRING(26),
+                    allowNull: false,
+                    unique: true,
+                },
             },
             {
                 sequelize,
