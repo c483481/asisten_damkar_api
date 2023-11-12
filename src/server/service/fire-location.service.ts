@@ -46,7 +46,11 @@ export class FireLocation extends BaseService implements FireLocationService {
 
         result.Po = pos;
 
-        return composeFireLocation(result);
+        const resultCompose = composeFireLocation(result);
+
+        this.fireLocationRepo.triggerPushFireLocation(resultCompose);
+
+        return resultCompose;
     };
 
     getListFireLocation = async (payload: List_Payload): Promise<ListResult<FireLocationResult>> => {
