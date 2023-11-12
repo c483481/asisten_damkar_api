@@ -14,7 +14,7 @@ export class PemadamSocket extends BaseSocket {
     }
 
     initSocket(): void {
-        this.io.on("connected", (socket: Socket) => {
+        this.io.on("connection", (socket: Socket) => {
             socket.on("join", (posXid: string) => {
                 if (typeof posXid !== "string") {
                     return;
