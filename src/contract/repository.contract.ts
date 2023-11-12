@@ -1,4 +1,5 @@
 import { FindResult, List_Payload } from "../module/dto.module";
+import { FireLocationResult } from "../server/dto/fire-location.dto";
 import { FireLocationAttributes, FireLocationCreationAttributes } from "../server/model/fire-location.model";
 import { ItemsAttributes, ItemsCreationAttributes } from "../server/model/items.model";
 import { PemadamAttributes, PemadamCreationAttributes, PemadamJoinAttributes } from "../server/model/pemadam.model";
@@ -51,6 +52,8 @@ export interface FireLocationRepository {
     insertFireLocation(payload: FireLocationCreationAttributes): Promise<FireLocationAttributes>;
 
     listFireLocation(payload: List_Payload): Promise<FindResult<FireLocationAttributes>>;
+
+    triggerPushFireLocation(payload: FireLocationResult): void;
 }
 
 export interface PemadamRepository {

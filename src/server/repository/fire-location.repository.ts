@@ -1,6 +1,9 @@
+import { pubsubEvent } from "../../constant/pubsub.contstant";
 import { FireLocationRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
 import { FindResult, List_Payload } from "../../module/dto.module";
+import { pubSub } from "../../module/pubsub.modul";
+import { FireLocationResult } from "../dto/fire-location.dto";
 import { FireLocation, FireLocationAttributes, FireLocationCreationAttributes } from "../model/fire-location.model";
 import { Pos } from "../model/pos.model";
 import { BaseRepository } from "./base.repository";
@@ -63,6 +66,10 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
             order,
         });
     };
+
+    triggerPushFireLocation = (payload: FireLocationResult): void => {
+        pubSub.publish(pubsubEvent.pushFireLocation, payload);
+    }
 
     parseSortBy = (sortBy: string): { order: Order } => {
         // determine sorting option
