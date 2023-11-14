@@ -75,6 +75,16 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
         });
     };
 
+    updateFireLocation = async (
+        id: number,
+        updatedValues: Partial<FireLocationAttributes>,
+        version: number
+    ): Promise<number> => {
+        const result = await this.fireLocation.update(updatedValues, { where: { id, version } });
+
+        return result[0];
+    };
+
     triggerPushFireLocation = (payload: FireLocationResult): void => {
         pubSub.publish(pubsubEvent.pushFireLocation, payload);
     };

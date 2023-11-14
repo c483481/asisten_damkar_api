@@ -55,6 +55,8 @@ export interface FireLocationRepository {
 
     listFireLocation(payload: List_Payload): Promise<FindResult<FireLocationAttributes>>;
 
+    updateFireLocation(id: number, updatedValues: Partial<FireLocationAttributes>, version: number): Promise<number>;
+
     triggerPushFireLocation(payload: FireLocationResult): void;
 }
 
