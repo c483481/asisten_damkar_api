@@ -2,7 +2,7 @@ import { Request } from "express";
 import { AppServiceMap, FireLocationService } from "../../contract/service.contract";
 import { BaseController } from "./base.controller";
 import { FireLocationCreation_Payload, FireLocationResult } from "../dto/fire-location.dto";
-import { getForceUsersSession, getListOption } from "../../utils/helper.utils";
+import { getDetailOption, getForceUsersSession, getListOption } from "../../utils/helper.utils";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { Privilege } from "../../constant/privilege.constant";
 import { WrapAppHandler } from "../../handler/default.handler";
@@ -24,6 +24,8 @@ export class FireLocationController extends BaseController {
         this.router.post("/", defaultMiddleware(Privilege.Central), WrapAppHandler(this.postCreateFireLocation));
 
         this.router.get("/", defaultMiddleware(), WrapAppHandler(this.getListFireLocation));
+
+        this.router.put("/:xid", defaultMiddleware(Privilege.Pemadam), WrapAppHandler(this.updateFireLocation));
     }
 
     postCreateFireLocation = async (req: Request): Promise<FireLocationResult> => {
@@ -44,6 +46,14 @@ export class FireLocationController extends BaseController {
         const payload = getListOption(req);
 
         const result = await this.service.getListFireLocation(payload);
+
+        return result;
+    };
+
+    updateFireLocation = async (req: Request): Promise<FireLocationResult> => {
+        const payload = getDetailOption(req);
+
+        const result = await this.service.updateFireLocation(payload);
 
         return result;
     };
