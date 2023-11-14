@@ -51,6 +51,8 @@ export interface ItemsRepository {
 export interface FireLocationRepository {
     insertFireLocation(payload: FireLocationCreationAttributes): Promise<FireLocationAttributes>;
 
+    findByXid(xid: string): Promise<FireLocationAttributes | null>;
+
     listFireLocation(payload: List_Payload): Promise<FindResult<FireLocationAttributes>>;
 
     triggerPushFireLocation(payload: FireLocationResult): void;

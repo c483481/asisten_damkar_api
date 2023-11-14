@@ -19,6 +19,14 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
         return this.fireLocation.create(payload);
     };
 
+    findByXid = async (xid: string): Promise<FireLocationAttributes | null> => {
+        return this.fireLocation.findOne({
+            where: {
+                xid,
+            },
+        });
+    };
+
     listFireLocation = async (payload: List_Payload): Promise<FindResult<FireLocationAttributes>> => {
         // retrieve options
         const { showAll, filters } = payload;
