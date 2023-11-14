@@ -2,12 +2,16 @@ import { isValid } from "ulidx";
 import { AppRepositoryMap, FireLocationRepository, PosRepository } from "../../contract/repository.contract";
 import { BaseService } from "./base.service";
 import { errorResponses } from "../../response";
-import { compose, composeResult, createData } from "../../utils/helper.utils";
-import { FireLocationCreationAttributes, FireLocationJoinAttributes } from "../model/fire-location.model";
+import { compose, composeResult, createData, updateData } from "../../utils/helper.utils";
+import {
+    FireLocationAttributes,
+    FireLocationCreationAttributes,
+    FireLocationJoinAttributes,
+} from "../model/fire-location.model";
 import { FireLocationCreation_Payload, FireLocationResult } from "../dto/fire-location.dto";
 import { composePos } from "./pos.service";
 import { getStatus, statusConstant } from "../../constant/status.constant";
-import { ListResult, List_Payload } from "../../module/dto.module";
+import { GetDetail_Payload, ListResult, List_Payload } from "../../module/dto.module";
 import { FireLocationService } from "../../contract/service.contract";
 import { toUnixEpoch } from "../../utils/date.utils";
 
@@ -18,6 +22,51 @@ export class FireLocation extends BaseService implements FireLocationService {
         this.fireLocationRepo = repository.fireLocation;
         this.posRepo = repository.pos;
     }
+
+    updateFireLocation = async (payload: GetDetail_Payload): Promise<FireLocationResult> => {
+        const { xid, usersSession } = payload;
+        if (!isValid(xid)) {
+            throw errorResponses.getError("E_REQ_1");
+        }
+
+        const fireLocation = await this.fireLocationRepo.findByXid(xid);
+
+        if (!fireLocation) {
+            throw errorResponses.getError("E_REQ_1");
+        }
+
+        const arriveAt = new Date();
+
+        const fifteenMinutesInMilliseconds = 15 * 60 * 1000;
+
+        const status =
+            arriveAt.getTime() - fireLocation.createdAt.getTime() > fifteenMinutesInMilliseconds
+                ? statusConstant.late
+                : statusConstant.clear;
+
+        const updatedValues = updateData<FireLocationAttributes>(
+            fireLocation,
+            {
+                arriveAt,
+                status,
+            },
+            usersSession
+        );
+
+        const result = await this.fireLocationRepo.updateFireLocation(
+            fireLocation.id,
+            updatedValues,
+            fireLocation.version
+        );
+
+        if (!result) {
+            throw errorResponses.getError("E_ERR_1");
+        }
+
+        Object.assign(fireLocation, updatedValues);
+
+        return composeFireLocation(fireLocation);
+    };
 
     createFireLocation = async (payload: FireLocationCreation_Payload): Promise<FireLocationResult> => {
         const { posXid, lat, lng, userSession } = payload;
