@@ -7,3 +7,11 @@ export function validate(fn: AsyncCheckFunction | SyncCheckFunction, data: unkno
         throw errorResponses.badError(err);
     }
 }
+
+export function safeValidate(fn: AsyncCheckFunction | SyncCheckFunction, data: unknown): boolean {
+    const err = fn(data);
+    if (err !== true) {
+        return false;
+    }
+    return true;
+}

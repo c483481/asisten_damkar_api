@@ -3,9 +3,11 @@ import { AppServiceMap } from "../../contract/service.contract";
 import { Server } from "socket.io";
 import { BaseSocket } from "./base.socket";
 import { PemadamSocket } from "./pemadam.socket";
+import { MapsSocket } from "./maps.socket";
 
 export class SocketServer {
     private readonly pemadam = new PemadamSocket();
+    private readonly maps = new MapsSocket();
 
     init({ server, service }: { server: HttpServer; service: AppServiceMap }): void {
         const io: Server = new Server(server, {

@@ -69,7 +69,7 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
 
     triggerPushFireLocation = (payload: FireLocationResult): void => {
         pubSub.publish(pubsubEvent.pushFireLocation, payload);
-    }
+    };
 
     parseSortBy = (sortBy: string): { order: Order } => {
         // determine sorting option
