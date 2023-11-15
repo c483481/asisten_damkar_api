@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { pubsubEvent } from "../../constant/pubsub.contstant";
 import { FireLocationRepository } from "../../contract/repository.contract";
 import { AppDataSource } from "../../module/datasource.module";
@@ -53,6 +54,21 @@ export class SequelizeFireLocationRepository extends BaseRepository implements F
         }
 
         let includeAble: Includeable = { model: Pos };
+
+        if (filters.month && isFinite(Number(filters.month))) {
+            const nowDate = DateTime.local();
+
+            const before = nowDate
+                .set({ day: 1 })
+                .minus({ months: Number(filters.month) })
+                .set({ day: 1 })
+                .toJSDate()
+                .toISOString();
+
+            where.createdAt = {
+                [Op.gte]: before,
+            };
+        }
 
         if (filters.posXid) {
             includeAble = {
