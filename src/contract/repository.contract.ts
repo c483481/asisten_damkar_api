@@ -47,6 +47,8 @@ export interface TruckRepository {
 export interface ItemsRepository {
     insertItems(payload: ItemsCreationAttributes): Promise<ItemsAttributes>;
 
+    findByXid(xid: string): Promise<ItemsAttributes | null>;
+
     updateItems(id: number, payload: Partial<ItemsAttributes>, version: number): Promise<number>;
 }
 

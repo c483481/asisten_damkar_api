@@ -14,6 +14,14 @@ export class SequelizeItemsRepository extends BaseRepository implements ItemsRep
         return this.items.create(payload);
     };
 
+    findByXid = async (xid: string): Promise<ItemsAttributes | null> => {
+        return this.items.findOne({
+            where: {
+                xid,
+            },
+        });
+    };
+
     updateItems = async (id: number, payload: Partial<ItemsAttributes>, version: number): Promise<number> => {
         const result = await this.items.update(payload, {
             where: {
