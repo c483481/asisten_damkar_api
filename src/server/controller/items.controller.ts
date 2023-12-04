@@ -4,6 +4,7 @@ import { AppServiceMap, ItemsService } from "../../contract/service.contract";
 import { defaultMiddleware } from "../../utils/middleware-helper.utils";
 import { BaseController } from "./base.controller";
 import { getDetailOption } from "../../utils/helper.utils";
+import { WrapAppHandler } from "../../handler/default.handler";
 
 export class ItemsController extends BaseController {
     private service!: ItemsService;
@@ -16,7 +17,9 @@ export class ItemsController extends BaseController {
     }
 
     initRoute(): void {
-        this.router.patch("/:xid", defaultMiddleware(Privilege.Pemadam));
+        this.router.patch("/:xid", defaultMiddleware(Privilege.Pemadam), WrapAppHandler(this.putUpdateStatus));
+
+        this.router.delete("/:xid", defaultMiddleware(Privilege.Pemadam), WrapAppHandler(this.deleteItems));
     }
 
     putUpdateStatus = async (req: Request): Promise<unknown> => {
@@ -25,5 +28,13 @@ export class ItemsController extends BaseController {
         const result = await this.service.updateStatusItem(payload);
 
         return result;
+    };
+
+    deleteItems = async (req: Request): Promise<unknown> => {
+        const payload = getDetailOption(req);
+
+        await this.service.deleteItems(payload);
+
+        return "success";
     };
 }
