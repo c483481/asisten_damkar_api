@@ -58,4 +58,6 @@ export interface PemadamService {
 
 export interface ItemsService {
     updateStatusItem(payload: GetDetail_Payload): Promise<ItemsResult>;
+
+    deleteItems(payload: GetDetail_Payload): Promise<void>;
 }

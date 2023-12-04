@@ -45,4 +45,24 @@ export class Items extends BaseService implements ItemsService {
 
         return composeItems(items);
     };
+
+    deleteItems = async (payload: GetDetail_Payload): Promise<void> => {
+        const { xid, usersSession } = payload;
+
+        if (!isValid(xid)) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        const items = await this.itemsRepo.findByXid(xid);
+
+        if (!items) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+
+        const result = await this.itemsRepo.deleteItems(items.id);
+
+        if (!result) {
+            throw errorResponses.getError("E_FOUND_1");
+        }
+    };
 }
