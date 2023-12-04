@@ -13,4 +13,15 @@ export class SequelizeItemsRepository extends BaseRepository implements ItemsRep
     insertItems = async (payload: ItemsCreationAttributes): Promise<ItemsAttributes> => {
         return this.items.create(payload);
     };
+
+    updateItems = async (id: number, payload: Partial<ItemsAttributes>, version: number): Promise<number> => {
+        const result = await this.items.update(payload, {
+            where: {
+                id,
+                version,
+            },
+        });
+
+        return result[0];
+    };
 }

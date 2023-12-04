@@ -46,6 +46,8 @@ export interface TruckRepository {
 
 export interface ItemsRepository {
     insertItems(payload: ItemsCreationAttributes): Promise<ItemsAttributes>;
+
+    updateItems(id: number, payload: Partial<ItemsAttributes>, version: number): Promise<number>;
 }
 
 export interface FireLocationRepository {
