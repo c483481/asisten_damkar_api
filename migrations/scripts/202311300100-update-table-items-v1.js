@@ -5,7 +5,7 @@ const name = "items";
 module.exports = {
     async up(queryInterface, _Sequelize) {
         // Mengubah kolom menjadi tidak unik
-        await queryInterface.removeConstraint(name, "name");
+        await queryInterface.removeIndex(name, "name");
     },
 
     async down(queryInterface, Sequelize) {
