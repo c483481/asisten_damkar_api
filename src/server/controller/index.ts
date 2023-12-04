@@ -7,6 +7,7 @@ import { PosController } from "./pos.controller";
 import { TruckController } from "./truck.controller";
 import { FireLocationController } from "./fire-location.controller";
 import { PemadamController } from "./pemadam.controller";
+import { ItemsController } from "./items.controller";
 
 export class Controller {
     private readonly auth = new AuthController();
@@ -14,6 +15,7 @@ export class Controller {
     private readonly truck = new TruckController();
     private readonly fireLocation = new FireLocationController();
     private readonly pemadam = new PemadamController();
+    private readonly items = new ItemsController();
 
     init(service: AppServiceMap): Router {
         const router = Router();
