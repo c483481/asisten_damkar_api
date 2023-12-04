@@ -35,7 +35,7 @@ export class Items extends BaseService implements ItemsService {
             usersSession
         );
 
-        const result = await this.itemsRepo.updateItems(items.id, payload, items.version);
+        const result = await this.itemsRepo.updateItems(items.id, updatedValues, items.version);
 
         if (!result) {
             throw errorResponses.getError("E_ERR_1");
