@@ -32,4 +32,12 @@ export class SequelizeItemsRepository extends BaseRepository implements ItemsRep
 
         return result[0];
     };
+
+    deleteItems = async (id: number): Promise<number> => {
+        return this.items.destroy({
+            where: {
+                id,
+            },
+        });
+    };
 }

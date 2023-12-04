@@ -50,6 +50,8 @@ export interface ItemsRepository {
     findByXid(xid: string): Promise<ItemsAttributes | null>;
 
     updateItems(id: number, payload: Partial<ItemsAttributes>, version: number): Promise<number>;
+
+    deleteItems(id: number): Promise<number>;
 }
 
 export interface FireLocationRepository {
