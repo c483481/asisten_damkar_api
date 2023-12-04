@@ -13,6 +13,7 @@ export interface AppServiceMap {
     truck: TruckService;
     fireLocation: FireLocationService;
     pemadam: PemadamService;
+    items: ItemsService;
 }
 
 export interface AuthService {
@@ -53,4 +54,8 @@ export interface PemadamService {
     createPemadam(payload: PemadamCreation_Payload): Promise<PemadamResult>;
 
     getPemadamInfo(userXid: string): Promise<PemadamResult>;
+}
+
+export interface ItemsService {
+    updateStatusItem(payload: GetDetail_Payload): Promise<ItemsResult>;
 }
