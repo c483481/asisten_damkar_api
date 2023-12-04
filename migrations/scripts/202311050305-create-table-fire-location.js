@@ -1,9 +1,9 @@
 "use strict";
 
 const { CommonColumn } = require("../columns");
-const { id, version, createdAt, updatedAt,  xid, modifiedBy } = CommonColumn;
+const { id, version, createdAt, updatedAt, xid, modifiedBy } = CommonColumn;
 
-const name = "fire_location"
+const name = "fire_location";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {

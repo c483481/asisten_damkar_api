@@ -2,10 +2,10 @@
 
 const { CommonColumn } = require("../columns");
 const { Constants } = require("../constants");
-const { id, version, createdAt, updatedAt,  xid, modifiedBy } = CommonColumn;
+const { id, version, createdAt, updatedAt, xid, modifiedBy } = CommonColumn;
 const { DEFAULT_JSON, DEFAULT_VERSION, DEFAULT_TIMESTAMP } = Constants;
 
-const name = "users"
+const name = "users";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
@@ -28,7 +28,7 @@ module.exports = {
             role: {
                 type: Sequelize.STRING(5),
                 allowNull: false,
-            }
+            },
         });
 
         await queryInterface.bulkInsert(name, [

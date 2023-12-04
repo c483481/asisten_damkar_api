@@ -32,12 +32,12 @@ const xid = {
     type: DataTypes.STRING(26),
     allowNull: false,
     unique: true,
-}
+};
 
 const modifiedBy = {
     type: DataTypes.JSON,
     allowNull: false,
-}
+};
 
 Columns.CommonColumn = {
     id,

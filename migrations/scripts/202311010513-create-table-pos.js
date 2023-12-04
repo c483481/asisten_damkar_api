@@ -1,9 +1,9 @@
 "use strict";
 
 const { CommonColumn } = require("../columns");
-const { id, version, createdAt, updatedAt,  xid, modifiedBy } = CommonColumn;
+const { id, version, createdAt, updatedAt, xid, modifiedBy } = CommonColumn;
 
-const name = "pos"
+const name = "pos";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
@@ -30,7 +30,7 @@ module.exports = {
             active: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
-            }
+            },
         });
     },
 
